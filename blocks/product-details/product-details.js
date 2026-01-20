@@ -39,6 +39,16 @@ function getProductData(sku) {
         '100% Colour Fidelity for accurate lifelike colours. 100% Colour Volume for richer hues',
       ],
       freeDelivery: true,
+      galleryImages: [
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_7.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Front View' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/2025-promotions/tv-gallery-updates-june/g5/wall/55/_2010x1334_G5_55.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Wall Mount' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_10.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Lifestyle View' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_11.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Side View' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_12.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 1' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_12.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 2' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_13.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 3' },
+        { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_14.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 4' },
+      ],
     },
     DEFAULT: {
       sku: 'UNKNOWN',
@@ -122,6 +132,31 @@ function createKeyFeatures(features) {
   `;
 }
 
+function createBreadcrumb(sku) {
+  const breadcrumbItems = [
+    { label: 'Home', url: '/' },
+    { label: 'TV and Soundbars', url: '/tv-and-soundbars' },
+    { label: 'OLED evo', url: '/tv-and-soundbars/oled-evo' },
+    { label: sku, url: null },
+  ];
+
+  const breadcrumbHtml = breadcrumbItems.map((item, index) => {
+    const isLast = index === breadcrumbItems.length - 1;
+    if (isLast) {
+      return `<span class="breadcrumb-current">${item.label}</span>`;
+    }
+    return `<a href="${item.url}" class="breadcrumb-link">${item.label}</a><span class="breadcrumb-separator">›</span>`;
+  }).join('');
+
+  return `
+    <nav class="product-breadcrumb">
+      <div class="breadcrumb-content">
+        ${breadcrumbHtml}
+      </div>
+    </nav>
+  `;
+}
+
 function createStickyHeader(product) {
   return `
     <div class="product-sticky-header">
@@ -161,6 +196,7 @@ function createProductContent(product) {
         <div class="product-rating">
           <div class="stars">${createStarRating(product.rating)}</div>
           <span class="rating-value">${product.rating}</span>
+          <span class="rating-separator">|</span>
           <span class="review-count">${product.reviewCount} Reviews</span>
         </div>
         <div class="recommend-info">
@@ -178,17 +214,22 @@ function createProductContent(product) {
       </div>
       <div class="product-gallery">
         <div class="gallery-main">
-          <div class="gallery-badge">Ultimate gaming</div>
-          <div class="gallery-features">
-            <span>VRR</span><span>ALLM</span><span>G-SYNC</span><span>FreeSync</span>
-          </div>
           <div class="gallery-image">
-            <img src="/icons/placeholder-product.svg" alt="${product.name}" loading="lazy">
+            <img src="${product.galleryImages?.[0]?.src || '/icons/placeholder-product.svg'}" alt="${product.name}" loading="lazy">
           </div>
-          <button class="ar-btn"><span>✨</span> AR</button>
         </div>
-        <div class="gallery-thumbnails">
-          ${Array(8).fill('<div class="thumbnail"></div>').join('')}
+        <button class="ar-btn"><span>✨</span> AR</button>
+        <div class="gallery-thumbnails-wrapper">
+          <button class="carousel-arrow carousel-prev" aria-label="Previous">‹</button>
+          <div class="gallery-thumbnails">
+            ${(product.galleryImages || []).map((img, index) => `
+              <div class="thumbnail ${index === 0 ? 'selected' : ''}" data-index="${index}">
+                <img src="${img.src}" alt="${img.alt}" loading="lazy">
+                ${img.label ? `<span class="thumbnail-label">${img.label}</span>` : ''}
+              </div>
+            `).join('')}
+          </div>
+          <button class="carousel-arrow carousel-next" aria-label="Next">›</button>
         </div>
       </div>
     </div>
@@ -196,6 +237,7 @@ function createProductContent(product) {
 }
 
 function initEventListeners(block) {
+  // Size selector
   block.querySelectorAll('.size-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       block.querySelectorAll('.size-btn').forEach((b) => b.classList.remove('selected'));
@@ -203,6 +245,7 @@ function initEventListeners(block) {
     });
   });
 
+  // More button for key features
   const moreBtn = block.querySelector('.more-btn');
   if (moreBtn) {
     moreBtn.addEventListener('click', () => {
@@ -212,10 +255,60 @@ function initEventListeners(block) {
     });
   }
 
+  // Buy now button
   const buyNowBtn = block.querySelector('.buy-now-btn');
   if (buyNowBtn) {
     // eslint-disable-next-line no-alert
     buyNowBtn.addEventListener('click', () => alert('Added to cart!'));
+  }
+
+  // Gallery thumbnail carousel
+  const thumbnails = block.querySelectorAll('.thumbnail');
+  const mainImage = block.querySelector('.gallery-image img');
+  const thumbnailsContainer = block.querySelector('.gallery-thumbnails');
+  const prevBtn = block.querySelector('.carousel-prev');
+  const nextBtn = block.querySelector('.carousel-next');
+
+  // Thumbnail click handler
+  thumbnails.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      thumbnails.forEach((t) => t.classList.remove('selected'));
+      thumb.classList.add('selected');
+      const thumbImg = thumb.querySelector('img');
+      if (thumbImg && mainImage) {
+        mainImage.src = thumbImg.src;
+        mainImage.alt = thumbImg.alt;
+      }
+    });
+  });
+
+  // Carousel navigation - scroll by one thumbnail (85px width + 10px gap)
+  const scrollAmount = 95;
+  
+  const scrollCarousel = (direction) => {
+    if (!thumbnailsContainer) return;
+    const currentScroll = thumbnailsContainer.scrollLeft;
+    const newScroll = direction === 'left' 
+      ? currentScroll - scrollAmount 
+      : currentScroll + scrollAmount;
+    thumbnailsContainer.scroll({
+      left: newScroll,
+      behavior: 'smooth'
+    });
+  };
+
+  if (prevBtn) {
+    prevBtn.onclick = (e) => {
+      e.preventDefault();
+      scrollCarousel('left');
+    };
+  }
+  
+  if (nextBtn) {
+    nextBtn.onclick = (e) => {
+      e.preventDefault();
+      scrollCarousel('right');
+    };
   }
 }
 
@@ -236,7 +329,7 @@ export default async function decorate(block) {
   const container = document.createElement('div');
   container.className = 'product-details-container';
   container.dataset.sku = sku;
-  container.innerHTML = createStickyHeader(product) + createProductContent(product);
+  container.innerHTML = createBreadcrumb(sku) + createStickyHeader(product) + createProductContent(product);
 
   block.appendChild(container);
   initEventListeners(block);

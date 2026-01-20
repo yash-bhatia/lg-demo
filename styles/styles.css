@@ -39,7 +39,7 @@
 
   /* nav height */
   --nav-height: 56px;
-  --nav-height-desktop: 100px;
+  --nav-height-desktop: 104px;
 }
 
 /* fallback fonts */
@@ -88,12 +88,19 @@ body.appear {
 
 header {
   height: var(--nav-height);
+  margin: 0;
+  padding: 0;
 }
 
 @media (width >= 900px) {
   header {
     height: var(--nav-height-desktop);
   }
+}
+
+main {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 header .header,
@@ -152,6 +159,10 @@ pre {
 
 main > div {
   margin: 40px 16px;
+}
+
+main > div:first-child {
+  margin-top: 0;
 }
 
 input,

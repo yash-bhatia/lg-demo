@@ -8,7 +8,10 @@ header .nav-wrapper {
   position: fixed;
   top: 0;
   left: 0;
+  margin: 0;
+  padding: 0;
 }
+
 
 /* Top bar - contains logo and Business link */
 header .nav-top-bar {
@@ -88,6 +91,8 @@ header .nav-external-arrow {
 /* Main nav row */
 header .nav-main-row {
   border-top: 1px solid #e0dcd4;
+  margin: 0;
+  padding: 0;
 }
 
 header nav {
