@@ -1,20 +1,138 @@
+/* LG Footer Styles */
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #333;
+  color: #a0a0a0;
+  font-size: 11px;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  box-sizing: border-box;
 }
 
-footer .footer p {
-  margin: 0;
+@media (width < 900px) {
+  footer .footer-wrapper {
+    padding: 20px 16px;
+  }
+}
+
+/* Top section - links and buttons */
+footer .footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #444;
 }
 
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-top {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
   }
+}
+
+/* Links container */
+footer .footer-links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Links row - inline display */
+footer .footer-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  line-height: 1.8;
+}
+
+footer .footer-links-row a,
+footer .footer-link-text {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 11px;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+footer .footer-links-row a:hover {
+  color: #fff;
+}
+
+/* Separator between links */
+footer .footer-link-separator {
+  color: #555;
+  margin: 0 12px;
+  font-size: 11px;
+}
+
+/* Buttons container */
+footer .footer-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+@media (width >= 900px) {
+  footer .footer-buttons-container {
+    flex-direction: row;
+    gap: 12px;
+  }
+}
+
+footer .footer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 11px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+footer .footer-button:hover {
+  border-color: #888;
+  color: #fff;
+  background: transparent;
+}
+
+/* Bottom section - copyright */
+footer .footer-bottom {
+  padding-top: 12px;
+}
+
+footer .footer-copyright {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+footer .footer-copyright p {
+  margin: 0;
+  color: #777;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+footer .footer-copyright a {
+  color: #888;
+  text-decoration: underline;
+}
+
+footer .footer-copyright a:hover {
+  color: #fff;
 }
