@@ -1,9 +1,30 @@
 /* Award Block Styles */
+
+/* Override EDS section wrapper constraints */
+main > .section > div:has(.award) {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.award-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .award {
   background-color: #f0ece4;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
+  width: 100%;
+  margin-left: 0;
   padding: 0;
+}
+
+@media (min-width: 769px) {
+  .award {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
 }
 
 .award-content {
@@ -192,60 +213,230 @@
 }
 
 /* Responsive - Tablet (3 cards) */
-@media (width <= 1024px) {
+@media (max-width: 1024px) {
   .award-card {
     flex: 0 0 33.333%;
   }
 }
 
 /* Responsive - Mobile (2 cards) */
-@media (width <= 768px) {
+@media (max-width: 768px) {
+  /* Override EDS section wrapper */
+  main > .section > div:has(.award) {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .award-wrapper {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .award {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+  }
+
   .award-content {
-    padding: 0 20px 40px;
+    padding: 0 16px 40px !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .award-carousel-wrapper {
+    width: 100% !important;
+  }
+
+  .award-carousel {
+    width: 100% !important;
+    overflow: hidden !important;
   }
 
   .award-card {
-    flex: 0 0 50%;
+    flex: 0 0 50% !important;
+    min-width: 50% !important;
+  }
+
+  .award-nav {
+    overflow: hidden !important;
+    width: 100% !important;
   }
 
   .award-nav-list {
-    gap: 20px;
+    gap: 20px !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    padding: 0 16px 8px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .award-nav-list::-webkit-scrollbar {
+    display: none;
   }
 
   .award-nav-link {
-    font-size: 13px;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+  }
+
+  .award-pagination {
+    margin-top: 32px !important;
   }
 }
 
 /* Responsive - Small Mobile (1 card) */
-@media (width <= 480px) {
+@media (max-width: 480px) {
+  /* Override EDS section wrapper */
+  main > .section > div:has(.award) {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .award-wrapper {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .award {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .award-content {
+    padding: 0 16px 32px !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+
+  .award-carousel-wrapper {
+    width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .award-carousel {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .award-carousel-track {
+    width: 100% !important;
+  }
+
   .award-card {
-    flex: 0 0 100%;
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .award-card-inner {
+    padding: 32px 24px !important;
+    min-height: auto !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+  }
+
+  .award-card-image {
+    height: 120px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .award-card-image img {
+    max-height: 120px !important;
+    max-width: 100% !important;
+  }
+
+  .award-card-title {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+  }
+
+  .award-card-description {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+  }
+
+  .award-card-content {
+    text-align: center !important;
+  }
+
+  .award-nav {
+    padding: 16px 0 !important;
+    margin-bottom: 24px !important;
+    overflow: hidden !important;
+    width: 100% !important;
   }
 
   .award-nav-list {
-    gap: 12px;
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding: 0 20px 8px;
+    gap: 20px !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    padding: 0 16px 10px !important;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: 0 !important;
+  }
+
+  .award-nav-list::-webkit-scrollbar {
+    display: none;
   }
 
   .award-nav-link {
-    font-size: 12px;
-    white-space: nowrap;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    padding: 10px 0 !important;
   }
 
   .award-pagination {
-    gap: 12px;
-    margin-top: 24px;
+    gap: 20px !important;
+    margin-top: 28px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
   .award-pagination-prev,
   .award-pagination-next {
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  .award-pagination-text {
+    font-size: 15px !important;
+    min-width: 50px !important;
   }
 }

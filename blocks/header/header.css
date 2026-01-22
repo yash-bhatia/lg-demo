@@ -552,3 +552,47 @@ header nav a.nav-icon:hover {
     height: 24px;
   }
 }
+
+/* Small mobile enhancements */
+@media (width < 480px) {
+  header .nav-top-bar {
+    padding: 8px 12px;
+  }
+
+  header .nav-brand-link .icon img {
+    height: 28px;
+  }
+
+  header nav {
+    padding: 0 12px;
+  }
+
+  header nav .nav-hamburger-icon,
+  header nav .nav-hamburger-icon::before,
+  header nav .nav-hamburger-icon::after {
+    width: 18px;
+  }
+
+  header nav .nav-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  header nav .nav-icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  header nav .nav-tools-container {
+    gap: 12px;
+  }
+
+  header nav[aria-expanded='true'] .nav-sections ul > li > a {
+    padding: 14px 0;
+    font-size: 14px;
+  }
+
+  header nav[aria-expanded='true'] .nav-search-form {
+    padding: 12px 14px;
+  }
+}

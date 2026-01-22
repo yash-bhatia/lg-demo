@@ -136,3 +136,39 @@ footer .footer-copyright a {
 footer .footer-copyright a:hover {
   color: #fff;
 }
+
+/* Enhanced mobile styles */
+@media (width < 480px) {
+  footer .footer-wrapper {
+    padding: 16px 12px;
+  }
+
+  footer .footer-top {
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  footer .footer-links-row {
+    line-height: 2;
+  }
+
+  footer .footer-links-row a,
+  footer .footer-link-text {
+    font-size: 10px;
+  }
+
+  footer .footer-link-separator {
+    margin: 0 8px;
+    font-size: 10px;
+  }
+
+  footer .footer-button {
+    padding: 8px 16px;
+    font-size: 10px;
+    width: 100%;
+  }
+
+  footer .footer-copyright p {
+    font-size: 10px;
+  }
+}
