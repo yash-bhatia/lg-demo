@@ -1,0 +1,367 @@
+/* Image CTA Overlay Block Styles */
+
+/* Block wrapper - full width */
+.image-cta-overlay {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  max-width: none;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f0ece4;
+}
+
+.image-cta-overlay-wrapper {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Inner wrapper */
+.image-cta-overlay .image-cta-overlay-inner {
+  width: 100%;
+  max-width: none;
+  padding: 60px 80px;
+  box-sizing: border-box;
+}
+
+/* Grid layout - 3 columns for desktop */
+.image-cta-overlay .image-cta-overlay-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.image-cta-overlay .image-cta-overlay-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 900px;
+}
+
+.image-cta-overlay .image-cta-overlay-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Card styles */
+.image-cta-overlay .image-cta-overlay-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Media container */
+.image-cta-overlay .image-cta-overlay-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: #2a2a2a;
+  margin-bottom: 20px;
+}
+
+.image-cta-overlay .image-cta-overlay-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-cta-overlay .image-cta-overlay-card:hover .image-cta-overlay-img {
+  transform: scale(1.02);
+}
+
+/* Video element - hidden by default */
+.image-cta-overlay .image-cta-overlay-video {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Play/Pause buttons */
+.image-cta-overlay .image-cta-overlay-play-btn,
+.image-cta-overlay .image-cta-overlay-pause-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 3;
+}
+
+.image-cta-overlay .image-cta-overlay-play-btn:hover,
+.image-cta-overlay .image-cta-overlay-pause-btn:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.image-cta-overlay .image-cta-overlay-play-btn .play-icon,
+.image-cta-overlay .image-cta-overlay-pause-btn .pause-icon {
+  width: 48px;
+  height: 48px;
+}
+
+/* Content container */
+.image-cta-overlay .image-cta-overlay-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+}
+
+.image-cta-overlay .image-cta-overlay-headline {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 12px;
+  color: #1a1a1a;
+}
+
+.image-cta-overlay .image-cta-overlay-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  color: #4a4a4a;
+}
+
+.image-cta-overlay .image-cta-overlay-cta {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  text-decoration: underline;
+}
+
+.image-cta-overlay .image-cta-overlay-cta:hover {
+  color: #000;
+}
+
+/* Alignment variants */
+.image-cta-overlay .image-cta-overlay--align-center .image-cta-overlay-content {
+  text-align: center;
+  align-items: center;
+}
+
+.image-cta-overlay .image-cta-overlay--align-right .image-cta-overlay-content {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* Background variants */
+.image-cta-overlay .image-cta-overlay--bg-dark {
+  background-color: #1a1a1a;
+}
+
+.image-cta-overlay .image-cta-overlay--bg-dark .image-cta-overlay-headline,
+.image-cta-overlay .image-cta-overlay--bg-dark .image-cta-overlay-body,
+.image-cta-overlay .image-cta-overlay--bg-dark .image-cta-overlay-cta {
+  color: #fff;
+}
+
+.image-cta-overlay .image-cta-overlay--bg-black {
+  background-color: #000;
+}
+
+.image-cta-overlay .image-cta-overlay--bg-black .image-cta-overlay-headline,
+.image-cta-overlay .image-cta-overlay--bg-black .image-cta-overlay-body,
+.image-cta-overlay .image-cta-overlay--bg-black .image-cta-overlay-cta {
+  color: #fff;
+}
+
+.image-cta-overlay .image-cta-overlay--bg-light {
+  background-color: #f0ece4;
+}
+
+.image-cta-overlay .image-cta-overlay--bg-white {
+  background-color: #fff;
+}
+
+/* Margin variants */
+.image-cta-overlay .image-cta-overlay--margin-top {
+  margin-top: 40px;
+}
+
+.image-cta-overlay .image-cta-overlay--margin-bottom {
+  margin-bottom: 40px;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Large tablet / small desktop */
+@media (max-width: 1200px) {
+  .image-cta-overlay .image-cta-overlay-inner {
+    padding: 50px 40px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-grid {
+    gap: 30px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-headline {
+    font-size: 24px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .image-cta-overlay .image-cta-overlay-inner {
+    padding: 40px 30px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-grid {
+    gap: 24px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-headline {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-body {
+    font-size: 13px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-media {
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .image-cta-overlay {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .image-cta-overlay .image-cta-overlay-inner {
+    padding: 40px 20px;
+  }
+
+  /* Stack to single column */
+  .image-cta-overlay .image-cta-overlay-grid,
+  .image-cta-overlay .image-cta-overlay-grid--2,
+  .image-cta-overlay .image-cta-overlay-grid--3 {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .image-cta-overlay .image-cta-overlay-card {
+    width: 100%;
+  }
+
+  .image-cta-overlay .image-cta-overlay-media {
+    border-radius: 12px;
+    margin-bottom: 16px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .image-cta-overlay .image-cta-overlay-content {
+    text-align: center;
+    align-items: center;
+  }
+
+  .image-cta-overlay .image-cta-overlay-headline {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .image-cta-overlay .image-cta-overlay-play-btn,
+  .image-cta-overlay .image-cta-overlay-pause-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-play-btn .play-icon,
+  .image-cta-overlay .image-cta-overlay-pause-btn .pause-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .image-cta-overlay .image-cta-overlay-inner {
+    padding: 30px 16px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-grid,
+  .image-cta-overlay .image-cta-overlay-grid--2,
+  .image-cta-overlay .image-cta-overlay-grid--3 {
+    gap: 28px;
+    max-width: 100%;
+  }
+
+  .image-cta-overlay .image-cta-overlay-media {
+    border-radius: 10px;
+    margin-bottom: 14px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-headline {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-body {
+    font-size: 12px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-play-btn,
+  .image-cta-overlay .image-cta-overlay-pause-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-play-btn .play-icon,
+  .image-cta-overlay .image-cta-overlay-pause-btn .pause-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 360px) {
+  .image-cta-overlay .image-cta-overlay-inner {
+    padding: 24px 12px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-grid,
+  .image-cta-overlay .image-cta-overlay-grid--2,
+  .image-cta-overlay .image-cta-overlay-grid--3 {
+    gap: 24px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-headline {
+    font-size: 16px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-body {
+    font-size: 11px;
+  }
+
+  .image-cta-overlay .image-cta-overlay-media {
+    border-radius: 8px;
+  }
+}
