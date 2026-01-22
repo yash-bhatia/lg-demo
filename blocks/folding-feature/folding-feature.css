@@ -1,0 +1,494 @@
+/* Folding Feature Block Styles */
+/* All selectors are scoped to .folding-feature to prevent style leakage */
+
+/* Block wrapper - EDS creates this automatically */
+.folding-feature {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  max-width: none;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Wrapper class created by EDS */
+.folding-feature-wrapper {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Base block styles - inner wrapper */
+.folding-feature .folding-feature-block {
+  width: 100%;
+  max-width: none;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #f0ece4;
+}
+
+.folding-feature .folding-feature-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+  width: 100%;
+}
+
+/* Content section */
+.folding-feature .folding-feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  text-align: center;
+  align-items: center;
+}
+
+.folding-feature .folding-feature-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.folding-feature .folding-feature-headline {
+  font-size: 36px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.3;
+  margin: 0;
+  letter-spacing: -0.5px;
+  color: #1a1a1a;
+}
+
+.folding-feature .folding-feature-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+}
+
+.folding-feature .folding-feature-body p {
+  margin: 0 0 16px;
+}
+
+.folding-feature .folding-feature-body p:last-child {
+  margin-bottom: 0;
+}
+
+.folding-feature .folding-feature-cta {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  width: fit-content;
+  margin-top: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Media section */
+.folding-feature .folding-feature-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.folding-feature .folding-feature-media picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.folding-feature .folding-feature-image {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+/* Disclaimer */
+.folding-feature .folding-feature-disclaimer {
+  max-width: 1400px;
+  margin: 30px auto 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #666;
+  text-align: left;
+  width: 100%;
+}
+
+.folding-feature .folding-feature-disclaimer--left {
+  text-align: left;
+}
+
+.folding-feature .folding-feature-disclaimer--center {
+  text-align: center;
+}
+
+.folding-feature .folding-feature-disclaimer--right {
+  text-align: right;
+}
+
+/* Background variants - Default is light beige */
+.folding-feature .folding-feature--bg-dark,
+.folding-feature .folding-feature--bg-black,
+.folding-feature .folding-feature--bg-light {
+  background-color: #f0ece4;
+  color: #1a1a1a;
+}
+
+.folding-feature .folding-feature--bg-dark .folding-feature-eyebrow,
+.folding-feature .folding-feature--bg-dark .folding-feature-headline,
+.folding-feature .folding-feature--bg-dark .folding-feature-body,
+.folding-feature .folding-feature--bg-dark .folding-feature-body p,
+.folding-feature .folding-feature--bg-black .folding-feature-eyebrow,
+.folding-feature .folding-feature--bg-black .folding-feature-headline,
+.folding-feature .folding-feature--bg-black .folding-feature-body,
+.folding-feature .folding-feature--bg-black .folding-feature-body p,
+.folding-feature .folding-feature--bg-light .folding-feature-eyebrow,
+.folding-feature .folding-feature--bg-light .folding-feature-headline,
+.folding-feature .folding-feature--bg-light .folding-feature-body,
+.folding-feature .folding-feature--bg-light .folding-feature-body p {
+  color: #1a1a1a;
+}
+
+.folding-feature .folding-feature--bg-dark .folding-feature-cta,
+.folding-feature .folding-feature--bg-black .folding-feature-cta,
+.folding-feature .folding-feature--bg-light .folding-feature-cta {
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+}
+
+.folding-feature .folding-feature--bg-dark .folding-feature-cta:hover,
+.folding-feature .folding-feature--bg-black .folding-feature-cta:hover,
+.folding-feature .folding-feature--bg-light .folding-feature-cta:hover {
+  background-color: #333;
+}
+
+.folding-feature .folding-feature--bg-dark .folding-feature-disclaimer,
+.folding-feature .folding-feature--bg-black .folding-feature-disclaimer,
+.folding-feature .folding-feature--bg-light .folding-feature-disclaimer {
+  color: #666;
+}
+
+.folding-feature .folding-feature--bg-white {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.folding-feature .folding-feature--bg-white .folding-feature-eyebrow,
+.folding-feature .folding-feature--bg-white .folding-feature-headline,
+.folding-feature .folding-feature--bg-white .folding-feature-body,
+.folding-feature .folding-feature--bg-white .folding-feature-body p {
+  color: #1a1a1a;
+}
+
+.folding-feature .folding-feature--bg-white .folding-feature-cta {
+  background-color: #a50034;
+  color: #fff;
+  border: none;
+}
+
+.folding-feature .folding-feature--bg-white .folding-feature-cta:hover {
+  background-color: #8a002c;
+}
+
+.folding-feature .folding-feature--bg-white .folding-feature-disclaimer {
+  color: #666;
+}
+
+/* Text alignment */
+.folding-feature .folding-feature--text-left .folding-feature-content {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.folding-feature .folding-feature--text-center .folding-feature-content {
+  text-align: center;
+  align-items: center;
+}
+
+.folding-feature .folding-feature--text-right .folding-feature-content {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* Image position - For single column layout, image always below */
+.folding-feature .folding-feature--image-left .folding-feature-container,
+.folding-feature .folding-feature--image-right .folding-feature-container {
+  flex-direction: column;
+}
+
+.folding-feature .folding-feature--image-left .folding-feature-container > *,
+.folding-feature .folding-feature--image-right .folding-feature-container > * {
+  width: 100%;
+}
+
+/* Width variants */
+.folding-feature .folding-feature--width-1440 {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.folding-feature .folding-feature--width-1200 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.folding-feature .folding-feature--width-960 {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Margin variants */
+.folding-feature .folding-feature--margin-top {
+  margin-top: 40px;
+}
+
+.folding-feature .folding-feature--margin-bottom {
+  margin-bottom: 40px;
+}
+
+/* Border */
+.folding-feature .folding-feature--border {
+  border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .folding-feature .folding-feature-block {
+    padding: 80px 80px;
+  }
+
+  .folding-feature .folding-feature-container {
+    max-width: 1600px;
+    gap: 50px;
+  }
+
+  .folding-feature .folding-feature-headline {
+    font-size: 42px;
+  }
+
+  .folding-feature .folding-feature-content {
+    max-width: 1000px;
+  }
+
+  .folding-feature .folding-feature-body {
+    max-width: 900px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .folding-feature .folding-feature-block {
+    padding: 50px 32px;
+  }
+
+  .folding-feature .folding-feature-container {
+    gap: 32px;
+  }
+
+  .folding-feature .folding-feature-headline {
+    font-size: 30px;
+  }
+
+  .folding-feature .folding-feature-body {
+    font-size: 14px;
+  }
+
+  .folding-feature .folding-feature-content {
+    max-width: 100%;
+  }
+
+  .folding-feature .folding-feature-media {
+    border-radius: 12px;
+  }
+
+  .folding-feature .folding-feature-image {
+    border-radius: 12px;
+  }
+}
+
+/* Mobile - 768px and below */
+@media (max-width: 768px) {
+  .folding-feature {
+    width: 100%;
+    margin-left: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .folding-feature .folding-feature-block {
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: #f0ece4;
+  }
+
+  .folding-feature .folding-feature-container {
+    gap: 24px;
+    max-width: 100%;
+  }
+
+  .folding-feature .folding-feature-content {
+    text-align: center;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .folding-feature .folding-feature-media {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .folding-feature .folding-feature-image {
+    border-radius: 12px;
+  }
+
+  .folding-feature .folding-feature-headline {
+    font-size: 24px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: #1a1a1a;
+  }
+
+  .folding-feature .folding-feature-eyebrow {
+    font-size: 11px;
+    color: #1a1a1a;
+    opacity: 0.8;
+  }
+
+  .folding-feature .folding-feature-body {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    max-width: 100%;
+  }
+
+  .folding-feature .folding-feature-cta {
+    padding: 10px 24px;
+    font-size: 13px;
+  }
+
+  .folding-feature .folding-feature-disclaimer {
+    padding: 0;
+    font-size: 10px;
+    margin-top: 20px;
+    text-align: left;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* Margin adjustments */
+  .folding-feature .folding-feature--margin-top {
+    margin-top: 24px;
+  }
+
+  .folding-feature .folding-feature--margin-bottom {
+    margin-bottom: 24px;
+  }
+}
+
+/* Small Mobile - 480px and below */
+@media (max-width: 480px) {
+  .folding-feature .folding-feature-block {
+    padding: 32px 16px;
+  }
+
+  .folding-feature .folding-feature-container {
+    gap: 20px;
+  }
+
+  .folding-feature .folding-feature-headline {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .folding-feature .folding-feature-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .folding-feature .folding-feature-body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .folding-feature .folding-feature-cta {
+    padding: 10px 20px;
+    font-size: 12px;
+    width: auto;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .folding-feature .folding-feature-disclaimer {
+    padding: 0 16px;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .folding-feature .folding-feature-content {
+    gap: 12px;
+  }
+
+  .folding-feature .folding-feature-media {
+    margin-top: 10px;
+  }
+}
+
+/* Extra small mobile - 360px and below */
+@media (max-width: 360px) {
+  .folding-feature .folding-feature-block {
+    padding: 24px 12px;
+  }
+
+  .folding-feature .folding-feature-headline {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .folding-feature .folding-feature-body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .folding-feature .folding-feature-cta {
+    padding: 8px 16px;
+    font-size: 11px;
+  }
+
+  .folding-feature .folding-feature-disclaimer {
+    font-size: 10px;
+    padding: 0 12px;
+    line-height: 1.4;
+  }
+}
