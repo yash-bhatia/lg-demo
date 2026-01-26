@@ -10,15 +10,12 @@
  */
 
 /**
- * Hardcoded product data - Replace with API call in future
- * For demo purposes, any SKU will display the sample product data
- * with the actual SKU from the URL substituted in
+ * Fallback product data - Used if API call fails
  * @param {string} sku - Product SKU
  * @returns {Object} Product data
  */
-function getProductData(sku) {
-  // Sample product data used for all SKUs in demo mode
-  const sampleProduct = {
+function getFallbackProductData(sku) {
+  return {
     sku: sku || 'OLED55G54LW',
     name: '55 inch LG OLED evo AI G5 4K Smart TV 2025 - Wall mount version',
     shortName: '55 inch LG OLED evo AI G5 4K Smart TV 2025 - Wall mount version',
@@ -51,11 +48,49 @@ function getProductData(sku) {
       { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_13.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 3' },
       { src: 'https://www.lg.com/content/dam/channel/wcms/uk/tv-audio-video/tv-soundbar/oled-evo/g5/oled55g54lw/OLED55G54LW_2010x1334_14.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800', label: '', alt: 'LG OLED G5 Detail View 4' },
     ],
+    breadcrumb: [
+      { label: 'Home', url: '/' },
+      { label: 'TV and Soundbars', url: '/tv-and-soundbars' },
+      { label: 'OLED evo', url: '/tv-and-soundbars/oled-evo' },
+      { label: sku || 'OLED55G54LW', url: null },
+    ],
   };
+}
 
-  // For demo purposes, return sample product data for any SKU
-  // When integrating with a real API, replace this with actual product lookup
-  return sampleProduct;
+/**
+ * Fetch product data from API
+ * @param {string} sku - Product SKU
+ * @returns {Promise<Object>} Product data
+ */
+async function getProductData(sku) {
+  const apiUrl = `https://696f0a83a06046ce618526b0.mockapi.io/api/${sku}`;
+  
+  try {
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    // API returns an array with one product object
+    if (Array.isArray(data) && data.length > 0) {
+      const product = data[0];
+      // Ensure SKU matches the requested SKU
+      product.sku = sku || product.sku;
+      return product;
+    }
+    
+    // If response is not an array or is empty, use fallback
+    console.warn('API returned unexpected format, using fallback data');
+    return getFallbackProductData(sku);
+    
+  } catch (error) {
+    console.error('Failed to fetch product data from API:', error);
+    console.log('Using fallback product data');
+    return getFallbackProductData(sku);
+  }
 }
 
 /**
@@ -115,16 +150,17 @@ function createKeyFeatures(features) {
   `;
 }
 
-function createBreadcrumb(sku) {
-  const breadcrumbItems = [
+function createBreadcrumb(breadcrumbItems) {
+  // breadcrumbItems can be an array from API or we construct it from SKU
+  const items = Array.isArray(breadcrumbItems) ? breadcrumbItems : [
     { label: 'Home', url: '/' },
     { label: 'TV and Soundbars', url: '/tv-and-soundbars' },
     { label: 'OLED evo', url: '/tv-and-soundbars/oled-evo' },
-    { label: sku, url: null },
+    { label: breadcrumbItems || 'Product', url: null },
   ];
 
-  const breadcrumbHtml = breadcrumbItems.map((item, index) => {
-    const isLast = index === breadcrumbItems.length - 1;
+  const breadcrumbHtml = items.map((item, index) => {
+    const isLast = index === items.length - 1;
     if (isLast) {
       return `<span class="breadcrumb-current">${item.label}</span>`;
     }
@@ -303,17 +339,25 @@ export default async function decorate(block) {
   // Get SKU from URL path
   const sku = getSkuFromUrl();
 
-  // Get product data
-  const product = getProductData(sku);
-
-  // Build UI
+  // Show loading state
   block.textContent = '';
-
   const container = document.createElement('div');
   container.className = 'product-details-container';
   container.dataset.sku = sku;
-  container.innerHTML = createBreadcrumb(sku) + createStickyHeader(product) + createProductContent(product);
-
+  container.innerHTML = '<div class="product-loading">Loading product information...</div>';
   block.appendChild(container);
-  initEventListeners(block);
+
+  try {
+    // Fetch product data from API
+    const product = await getProductData(sku);
+
+    // Build UI with fetched data
+    container.innerHTML = createBreadcrumb(product.breadcrumb || sku) + createStickyHeader(product) + createProductContent(product);
+    
+    initEventListeners(block);
+  } catch (error) {
+    console.error('Error loading product:', error);
+    // Show error state or fallback
+    container.innerHTML = '<div class="product-error">Failed to load product information. Please try again later.</div>';
+  }
 }
