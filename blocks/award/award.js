@@ -42,6 +42,31 @@ function createNavBar() {
         link.classList.remove('active');
       });
       navLink.classList.add('active');
+
+      // Handle navigation to different sections
+      if (item.id === 'specs') {
+        // Scroll to key-spec component
+        const keySpecBlock = document.querySelector('.key-spec');
+        if (keySpecBlock) {
+          keySpecBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Add a small offset to account for sticky nav if needed
+          setTimeout(() => {
+            const offset = 80; // Adjust this value based on your nav height
+            const elementPosition = keySpecBlock.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }, 100);
+        }
+      } else {
+        // For other nav items, you can add similar scroll logic
+        const targetElement = document.getElementById(item.id);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     });
 
     navItem.appendChild(navLink);
