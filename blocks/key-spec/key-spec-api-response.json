@@ -1,0 +1,38 @@
+[
+  {
+    "leftLabel": "PICTURE (DISPLAY) - Display Type",
+    "leftValue": "4K OLED",
+    "rightLabel": "PICTURE (DISPLAY) - Refresh Rate",
+    "rightValue": "120Hz Native (VRR 144Hz)"
+  },
+  {
+    "leftLabel": "PICTURE (DISPLAY) - Wide Colour Gamut",
+    "leftValue": "OLED Colour",
+    "rightLabel": "PICTURE (PROCESSING) - Picture Processor",
+    "rightValue": "a9 AI Processor 4K Gen8"
+  },
+  {
+    "leftLabel": "PICTURE (PROCESSING) - HDR (High Dynamic Range)",
+    "leftValue": "Dolby Vision / HDR10 / HLG",
+    "rightLabel": "GAMING - G-Sync Compatible (Nvidia)",
+    "rightValue": "Yes"
+  },
+  {
+    "leftLabel": "GAMING - FreeSync Compatible (AMD)",
+    "leftValue": "Yes",
+    "rightLabel": "AUDIO - Audio Output",
+    "rightValue": "40W"
+  },
+  {
+    "leftLabel": "AUDIO - Speaker System",
+    "leftValue": "2.2 channel",
+    "rightLabel": "AUDIO - Dolby Atmos",
+    "rightValue": "Yes"
+  },
+  {
+    "leftLabel": "DIMENSIONS AND WEIGHTS - TV Dimensions without Stand (WxHxD)",
+    "leftValue": "1441 x 826 x 45.1",
+    "rightLabel": "DIMENSIONS AND WEIGHTS - TV Weight without Stand",
+    "rightValue": "16.6"
+  }
+]

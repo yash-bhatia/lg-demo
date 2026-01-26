@@ -56,7 +56,7 @@ const HARDCODED_SPEC_DATA = [
 ];
 
 /**
- * Load data from API (future implementation)
+ * Load data from API
  * @param {string} apiUrl - API endpoint URL
  * @returns {Promise<Array>} Array of specification objects
  */
@@ -67,8 +67,19 @@ async function loadDataFromAPI(apiUrl) {
       throw new Error(`API request failed: ${response.status}`);
     }
     const data = await response.json();
-    // Expect API to return array of objects with leftLabel, leftValue, rightLabel, rightValue
-    return Array.isArray(data) ? data : [];
+    
+    // API returns nested array: [[{spec1}, {spec2}, ...]]
+    // Extract the inner array
+    if (Array.isArray(data) && data.length > 0) {
+      // Check if first element is an array (nested format)
+      if (Array.isArray(data[0])) {
+        return data[0]; // Return the inner array
+      }
+      // If not nested, return the array directly
+      return data;
+    }
+    
+    return [];
   } catch (error) {
     console.error('Failed to load key-spec data from API:', error);
     return null;
@@ -153,19 +164,19 @@ function createKeySpecHTML(specs) {
  * @param {HTMLElement} block - The block element
  */
 export default async function decorate(block) {
-  let specs = HARDCODED_SPEC_DATA;
+  let specs = null;
 
-  // Check if block has data attribute for API URL
-  const apiUrl = block.dataset.apiUrl;
+  // Use custom API URL if provided, otherwise use default API
+  const apiUrl = block.dataset.apiUrl || 'https://696f0a83a06046ce618526b0.mockapi.io/api/key-spec';
 
-  if (apiUrl) {
-    // Try to load from API, fallback to hardcoded if API fails
-    const apiData = await loadDataFromAPI(apiUrl);
-    if (apiData && apiData.length > 0) {
-      specs = apiData;
-    } else {
-      console.log('Key Spec: API failed or returned no data, using hardcoded data');
-    }
+  // Try to load from API
+  const apiData = await loadDataFromAPI(apiUrl);
+  if (apiData && apiData.length > 0) {
+    specs = apiData;
+  } else {
+    // Fallback to hardcoded data if API fails
+    console.log('Key Spec: API failed or returned no data, using hardcoded data');
+    specs = HARDCODED_SPEC_DATA;
   }
 
   // Clear existing content
