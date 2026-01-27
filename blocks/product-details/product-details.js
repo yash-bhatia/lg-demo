@@ -63,7 +63,7 @@ function getFallbackProductData(sku) {
  * @returns {Promise<Object>} Product data
  */
 async function getProductData(sku) {
-  const apiUrl = `https://696f0a83a06046ce618526b0.mockapi.io/api/${sku}`;
+  const apiUrl = `https://696f0a83a06046ce618526b0.mockapi.io/api/products`;
   
   try {
     const response = await fetch(apiUrl);
@@ -74,12 +74,26 @@ async function getProductData(sku) {
     
     const data = await response.json();
     
-    // API returns an array with one product object
+    // API returns an array of products - find the one matching the requested SKU
     if (Array.isArray(data) && data.length > 0) {
-      const product = data[0];
-      // Ensure SKU matches the requested SKU
-      product.sku = sku || product.sku;
-      return product;
+      // Normalize SKU for comparison (uppercase, trim whitespace)
+      const normalizedSku = (sku || '').toUpperCase().trim();
+      
+      // Find product with matching SKU
+      const product = data.find((item) => {
+        const itemSku = (item.sku || '').toUpperCase().trim();
+        return itemSku === normalizedSku;
+      });
+      
+      if (product) {
+        // Ensure SKU matches the requested SKU
+        product.sku = sku || product.sku;
+        return product;
+      }
+      
+      // If no matching SKU found, log warning and use fallback
+      console.warn(`Product with SKU "${sku}" not found in API response. Available SKUs: ${data.map((item) => item.sku).join(', ')}`);
+      return getFallbackProductData(sku);
     }
     
     // If response is not an array or is empty, use fallback
