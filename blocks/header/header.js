@@ -4,6 +4,93 @@ import { loadFragment } from '../fragment/fragment.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+/**
+ * Gets SKU from URL path
+ * URL: /products/OLED55G54LW → Returns: OLED55G54LW
+ * @returns {string} SKU
+ */
+function getSkuFromUrl() {
+  const { pathname } = window.location;
+  const segments = pathname.split('/').filter((s) => s);
+  
+  // Check if we're on a product page
+  const productsIndex = segments.indexOf('products');
+  if (productsIndex >= 0 && segments[productsIndex + 1]) {
+    return segments[productsIndex + 1].toUpperCase();
+  }
+  
+  // Fallback: get last segment as SKU
+  const lastSegment = segments[segments.length - 1] || '';
+  return lastSegment.toUpperCase();
+}
+
+/**
+ * Creates breadcrumb navigation HTML
+ * @param {Array|string} breadcrumbItems - Breadcrumb items array or SKU string
+ * @returns {string} Breadcrumb HTML
+ */
+function createBreadcrumb(breadcrumbItems) {
+  // breadcrumbItems can be an array from API or we construct it from SKU
+  const items = Array.isArray(breadcrumbItems) ? breadcrumbItems : [
+    { label: 'Home', url: '/' },
+    { label: 'TV and Soundbars', url: '/tv-and-soundbars' },
+    { label: 'OLED evo', url: '/tv-and-soundbars/oled-evo' },
+    { label: breadcrumbItems || 'Product', url: null },
+  ];
+
+  const breadcrumbHtml = items.map((item, index) => {
+    const isLast = index === items.length - 1;
+    if (isLast) {
+      return `<span class="breadcrumb-current">${item.label}</span>`;
+    }
+    return `<a href="${item.url}" class="breadcrumb-link">${item.label}</a><span class="breadcrumb-separator">›</span>`;
+  }).join('');
+
+  return `
+    <nav class="header-breadcrumb">
+      <div class="breadcrumb-content">
+        ${breadcrumbHtml}
+      </div>
+    </nav>
+  `;
+}
+
+/**
+ * Fetches product breadcrumb data from API
+ * @param {string} sku - Product SKU
+ * @returns {Promise<Array>} Breadcrumb items
+ */
+async function getBreadcrumbData(sku) {
+  if (!sku) return null;
+  
+  try {
+    const apiUrl = `https://696f0a83a06046ce618526b0.mockapi.io/api/${sku}`;
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      return null;
+    }
+    
+    const data = await response.json();
+    
+    if (Array.isArray(data) && data.length > 0) {
+      const normalizedSku = (sku || '').toUpperCase().trim();
+      const product = data.find((item) => {
+        const itemSku = (item.sku || '').toUpperCase().trim();
+        return itemSku === normalizedSku;
+      });
+      
+      if (product && product.breadcrumb) {
+        return product.breadcrumb;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch breadcrumb data:', error);
+  }
+  
+  return null;
+}
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -201,6 +288,8 @@ function decorateTools(navTools) {
     </span>
   `;
   toolsContainer.appendChild(cartLink);
+  
+  // Note: Hamburger menu will be added to toolsContainer after this function returns
 
   // Clear original content and add new container
   navTools.innerHTML = '';
@@ -235,8 +324,23 @@ export default async function decorate(block) {
   // Create top bar with logo and business link
   const topBar = createTopBar(navBrand, navTools);
 
-  // Remove brand from nav (it's now in top bar)
+  // For mobile: add brand logo to nav main row (keep it in top bar for desktop)
+  let mobileBrand = null;
   if (navBrand) {
+    // Create mobile brand element with logo
+    mobileBrand = document.createElement('div');
+    mobileBrand.className = 'nav-brand-mobile';
+    const homeLink = document.createElement('a');
+    homeLink.href = '/';
+    homeLink.className = 'nav-brand-link';
+    homeLink.setAttribute('aria-label', 'LG Home');
+    homeLink.innerHTML = `
+      <span class="icon icon-logo-lg">
+        <img src="/icons/logo-lg-100-44.svg" alt="LG" loading="eager">
+      </span>
+    `;
+    mobileBrand.appendChild(homeLink);
+    // Remove brand from nav (it's now in top bar for desktop)
     navBrand.remove();
   }
 
@@ -257,27 +361,63 @@ export default async function decorate(block) {
   // Decorate tools section (search + icons)
   decorateTools(navTools);
 
-  // hamburger for mobile
+  // hamburger for mobile - add to tools container (on the right side with other icons)
   const hamburger = document.createElement('div');
   hamburger.classList.add('nav-hamburger');
   hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
       <span class="nav-hamburger-icon"></span>
     </button>`;
   hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-  nav.prepend(hamburger);
+  
+  // Add hamburger to tools container (on the right side, after cart icon)
+  if (navTools && navTools.querySelector('.nav-tools-container')) {
+    navTools.querySelector('.nav-tools-container').appendChild(hamburger);
+  } else {
+    // Fallback: prepend to nav if tools container doesn't exist
+    nav.prepend(hamburger);
+  }
+  
   nav.setAttribute('aria-expanded', 'false');
   // prevent mobile nav behavior on window resize
   toggleMenu(nav, navSections, isDesktop.matches);
   isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+
+  // Add mobile brand to nav (for mobile view)
+  if (mobileBrand) {
+    nav.insertBefore(mobileBrand, nav.firstChild);
+  }
 
   // Create main nav row container
   const mainNavRow = document.createElement('div');
   mainNavRow.className = 'nav-main-row';
   mainNavRow.append(nav);
 
+  // Create breadcrumb navigation (only on product pages)
+  const sku = getSkuFromUrl();
+  let breadcrumbHtml = '';
+  
+  if (sku) {
+    try {
+      const breadcrumbData = await getBreadcrumbData(sku);
+      breadcrumbHtml = createBreadcrumb(breadcrumbData || sku);
+    } catch (error) {
+      console.error('Error loading breadcrumb:', error);
+      breadcrumbHtml = createBreadcrumb(sku);
+    }
+  }
+
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(topBar);
   navWrapper.append(mainNavRow);
+  
+  // Add breadcrumb to header (below main nav row)
+  if (breadcrumbHtml) {
+    const breadcrumbContainer = document.createElement('div');
+    breadcrumbContainer.className = 'header-breadcrumb-container';
+    breadcrumbContainer.innerHTML = breadcrumbHtml;
+    navWrapper.append(breadcrumbContainer);
+  }
+  
   block.append(navWrapper);
 }

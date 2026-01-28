@@ -10,6 +10,20 @@ header .nav-wrapper {
   left: 0;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+@media (width >= 900px) {
+  header .nav-wrapper {
+    height: var(--nav-height-desktop, 104px);
+  }
+}
+
+/* Breadcrumb is part of header, so it's also fixed */
+header .header-breadcrumb-container {
+  position: fixed;
+  z-index: 99;
+  background-color: #f0ece4;
 }
 
 
@@ -24,9 +38,21 @@ header .nav-top-bar {
   box-sizing: border-box;
 }
 
+@media (width >= 900px) {
+  header .nav-top-bar {
+    padding: 10px 40px;
+  }
+}
+
 @media (width < 900px) {
   header .nav-top-bar {
-    padding: 10px 16px;
+    padding: 8px 16px;
+    justify-content: flex-end;
+  }
+
+  /* Hide logo in top bar on mobile (it's in nav row instead) */
+  header .nav-top-bar .nav-brand-container {
+    display: none;
   }
 }
 
@@ -84,7 +110,7 @@ header .nav-external-arrow {
 
 @media (width < 900px) {
   header .nav-business-container {
-    display: none;
+    display: flex;
   }
 }
 
@@ -93,13 +119,39 @@ header .nav-main-row {
   border-top: 1px solid #e0dcd4;
   margin: 0;
   padding: 0;
+  border-bottom: none;
+  display: flex;
+  align-items: stretch;
+}
+
+@media (width >= 900px) {
+  header .nav-main-row {
+    height: 44px;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (width >= 900px) {
+  /* Add border-bottom when breadcrumb is present - no gap */
+  body:has(.header-breadcrumb-container) header .nav-main-row {
+    border-bottom: 1px solid #e0dcd4;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  /* Ensure breadcrumb container has no top margin/padding */
+  .header-breadcrumb-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
 }
 
 header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'hamburger sections tools' var(--nav-height)
+    'brand sections tools' var(--nav-height)
     / auto 1fr auto;
   align-items: center;
   gap: 0 16px;
@@ -111,13 +163,75 @@ header nav {
   background-color: #f0ece4;
 }
 
+/* Mobile brand logo in nav */
+header nav .nav-brand-mobile {
+  grid-area: brand;
+  display: none;
+}
+
+@media (width < 900px) {
+  header nav {
+    grid-template:
+      'brand tools' var(--nav-height)
+      / 1.25fr 1fr;
+    padding: 0 16px;
+    gap: 0;
+  }
+
+  header nav .nav-brand-mobile {
+    display: flex;
+    align-items: center;
+  }
+
+  header nav .nav-brand-mobile a,
+  header nav .nav-brand-mobile .nav-brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  header nav .nav-brand-mobile .icon,
+  header nav .nav-brand-mobile .icon-logo-lg {
+    display: flex;
+    align-items: center;
+  }
+
+  header nav .nav-brand-mobile .icon img {
+    height: 28px;
+    width: auto;
+  }
+}
+
 header nav[aria-expanded='true'] {
   grid-template:
-    'hamburger hamburger' var(--nav-height)
+    'brand tools' var(--nav-height)
     'sections sections' 1fr
     'tools tools' auto / auto 1fr;
   overflow-y: auto;
   min-height: calc(100dvh - 56px);
+  z-index: 101;
+  position: relative;
+}
+
+@media (width < 900px) {
+  /* When navigation is expanded, position it directly below header (touching it) */
+  header nav[aria-expanded='true'] {
+    min-height: calc(100dvh - 93px);
+    max-height: calc(100dvh - 93px);
+    position: fixed;
+    top: 93px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #f0ece4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ensure nav-wrapper extends to cover navigation when expanded */
+  header .nav-wrapper:has(nav[aria-expanded='true']) {
+    height: 100vh;
+  }
 }
 
 @media (width >= 900px) {
@@ -126,7 +240,7 @@ header nav[aria-expanded='true'] {
     flex-direction: row;
     align-items: center;
     gap: 0;
-    max-width: 1400px;
+
     margin: 0 auto;
     padding: 0 40px;
     height: 44px;
@@ -156,10 +270,16 @@ header nav a:hover {
 
 /* hamburger */
 header nav .nav-hamburger {
-  grid-area: hamburger;
   height: 22px;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+}
+
+@media (width < 900px) {
+  header nav .nav-hamburger {
+    display: flex;
+  }
 }
 
 header nav .nav-hamburger button {
@@ -232,6 +352,10 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
   header nav .nav-hamburger {
     display: none;
     visibility: hidden;
+  }
+
+  header nav .nav-brand-mobile {
+    display: none;
   }
 }
 
@@ -397,10 +521,23 @@ header nav .nav-tools {
   align-items: center;
 }
 
+@media (width < 900px) {
+  header nav .nav-tools {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+
 header nav .nav-tools-container {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+@media (width < 900px) {
+  header nav .nav-tools-container {
+    gap: 8px;
+  }
 }
 
 /* Search bar */
@@ -412,17 +549,25 @@ header nav .nav-search {
 header nav .nav-search-form {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: 18px;
   padding: 6px 12px;
   gap: 6px;
   transition: background-color 0.2s ease;
-  border: 1px solid #e0dcd4;
+  border: 1px solid transparent;
 }
 
 header nav .nav-search-form:focus-within {
-  background-color: #fff;
-  border-color: #ccc;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+@media (width < 900px) {
+  header nav .nav-search-form {
+    background-color: transparent;
+    border: none;
+    padding: 6px;
+  }
 }
 
 header nav .nav-search-form .icon {
@@ -468,7 +613,22 @@ header nav .nav-search-form input[type='search']::-webkit-search-results-decorat
 }
 
 @media (width < 900px) {
+  /* Show search icon in mobile (as icon only, not full search bar) */
   header nav .nav-search {
+    display: flex;
+  }
+
+  header nav .nav-search-form {
+    padding: 6px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+  }
+
+  header nav .nav-search-form input[type='search'] {
     display: none;
   }
 
@@ -493,9 +653,12 @@ header nav .nav-search-form input[type='search']::-webkit-search-results-decorat
   header nav[aria-expanded='true'] .nav-search-form {
     width: 100%;
     padding: 10px 16px;
+    border-radius: 18px;
+    justify-content: flex-start;
   }
 
   header nav[aria-expanded='true'] .nav-search-form input[type='search'] {
+    display: block;
     width: 100%;
     flex: 1;
   }
@@ -594,5 +757,167 @@ header nav a.nav-icon:hover {
 
   header nav[aria-expanded='true'] .nav-search-form {
     padding: 12px 14px;
+  }
+}
+
+/* Breadcrumb Navigation - Part of Header */
+.header-breadcrumb-container {
+  width: 100%;
+  background-color: #f0ece4;
+  border: none !important;
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 99;
+  left: 0;
+  right: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 40px;
+  overflow: hidden;
+}
+
+@media (width >= 900px) {
+  /* Calculate exact top position: top bar height + nav row height */
+  /* Top bar: ~60px (10px padding top + ~40px content + 10px padding bottom) */
+  /* Nav row: 44px */
+  /* Total: 104px */
+  .header-breadcrumb-container {
+    top: var(--nav-height-desktop, 104px);
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    height: 40px !important;
+  }
+  
+  /* Ensure breadcrumb touches header - no gap */
+  body:has(.header-breadcrumb-container) header .nav-main-row {
+    border-bottom: 1px solid #e0dcd4;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    height: 44px !important;
+  }
+  
+  /* Ensure nav-wrapper has exact height */
+  body:has(.header-breadcrumb-container) header .nav-wrapper {
+    height: var(--nav-height-desktop, 104px);
+  }
+  
+  /* Ensure breadcrumb content has no extra spacing */
+  .header-breadcrumb {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    height: 100%;
+  }
+  
+  .breadcrumb-content {
+    height: 40px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (width < 900px) {
+  .header-breadcrumb-container {
+    top: 93px; /* top bar + nav row height */
+    margin-top: 0;
+  }
+  
+  /* Hide breadcrumb when navigation is expanded */
+  body:has(header nav[aria-expanded='true']) .header-breadcrumb-container {
+    display: none;
+  }
+}
+
+.header-breadcrumb {
+  background-color: #f0ece4;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-top: none;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+}
+
+@media (width >= 900px) {
+  .header-breadcrumb {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+}
+
+.breadcrumb-content {
+  max-width: 1400px;
+  margin: 0 auto !important;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  font-size: 12px;
+  box-sizing: border-box;
+  height: 100%;
+  line-height: 1.2;
+}
+
+@media (width >= 900px) {
+  .breadcrumb-content {
+    padding: 0 40px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    height: 100% !important;
+    justify-content: flex-start !important;
+    max-width: 1400px !important;
+  }
+}
+
+.breadcrumb-link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #1a1a1a;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: #999;
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+.breadcrumb-current {
+  color: #1a1a1a;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (width < 900px) {
+  .breadcrumb-content {
+    padding: 10px 16px;
+    font-size: 11px;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 6px;
+  }
+  
+  .breadcrumb-current {
+    max-width: 200px;
   }
 }

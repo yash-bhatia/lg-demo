@@ -164,31 +164,6 @@ function createKeyFeatures(features) {
   `;
 }
 
-function createBreadcrumb(breadcrumbItems) {
-  // breadcrumbItems can be an array from API or we construct it from SKU
-  const items = Array.isArray(breadcrumbItems) ? breadcrumbItems : [
-    { label: 'Home', url: '/' },
-    { label: 'TV and Soundbars', url: '/tv-and-soundbars' },
-    { label: 'OLED evo', url: '/tv-and-soundbars/oled-evo' },
-    { label: breadcrumbItems || 'Product', url: null },
-  ];
-
-  const breadcrumbHtml = items.map((item, index) => {
-    const isLast = index === items.length - 1;
-    if (isLast) {
-      return `<span class="breadcrumb-current">${item.label}</span>`;
-    }
-    return `<a href="${item.url}" class="breadcrumb-link">${item.label}</a><span class="breadcrumb-separator">›</span>`;
-  }).join('');
-
-  return `
-    <nav class="product-breadcrumb">
-      <div class="breadcrumb-content">
-        ${breadcrumbHtml}
-      </div>
-    </nav>
-  `;
-}
 
 function createStickyHeader(product) {
   const iconPath = `${window.hlx?.codeBasePath || ''}/icons/label-energy-grade-f.svg`;
@@ -369,7 +344,7 @@ export default async function decorate(block) {
     const product = await getProductData(sku);
 
     // Build UI with fetched data
-    container.innerHTML = createBreadcrumb(product.breadcrumb || sku) + createStickyHeader(product) + createProductContent(product);
+    container.innerHTML = createStickyHeader(product) + createProductContent(product);
     
     initEventListeners(block);
   } catch (error) {

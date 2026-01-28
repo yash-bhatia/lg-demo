@@ -7,6 +7,8 @@ main > .section:first-of-type:has(.product-details) {
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 main:has(.product-details) {
@@ -19,6 +21,16 @@ main:has(.product-details) > div,
 main:has(.product-details) > .section {
   margin: 0 !important;
   padding: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+@media (width >= 900px) {
+  main .section:has(.product-details),
+  main > .section:has(.product-details) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
 }
 
 
@@ -28,6 +40,8 @@ main .section .product-details-wrapper {
   max-width: 100% !important;
   padding: 0 !important;
   margin: 0 auto !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
   width: 100% !important;
 }
 
@@ -38,6 +52,8 @@ main .section .product-details-wrapper {
   display: block;
   margin: 0 !important;
   padding: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .product-details-container {
@@ -46,96 +62,62 @@ main .section .product-details-wrapper {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-/* Breadcrumb Navigation - Full width bar directly under header */
-.product-breadcrumb {
-  background-color: #e6e1d6;
-  width: 100%;
-  margin-left: 0;
-  margin-top: -50px;
-  padding-top: 50px;
-  box-sizing: border-box;
-  position: sticky;
-  top: calc(var(--nav-height-desktop, 104px) - 50px);
-  z-index: 49;
-}
-
-@media (min-width: 901px) {
-  .product-breadcrumb {
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+@media (width >= 900px) {
+  /* Desktop: Account for header + breadcrumb height (no gap) */
+  /* Header: 104px, Breadcrumb: 40px */
+  .product-details-container {
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
   }
-}
-
-@media (max-width: 900px) {
-  .product-breadcrumb {
-    top: calc(var(--nav-height, 56px) - 50px);
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+  
+  /* Ensure sticky header starts right after breadcrumb with no gap */
+  .product-sticky-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
   }
-}
-
-.breadcrumb-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1px 40px;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  font-size: 12px;
-  box-sizing: border-box;
-}
-
-.breadcrumb-link {
-  color: #666 !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.breadcrumb-link:hover {
-  color: #1a1a1a;
-  text-decoration: underline;
-}
-
-.breadcrumb-separator {
-  color: #999;
-  margin: 0 8px;
-  font-size: 14px;
-}
-
-.breadcrumb-current {
-  color: #1a1a1a;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 200px;
-}
-
-@media (max-width: 480px) {
-  .breadcrumb-current {
-    max-width: 120px;
+  
+  /* Ensure product main starts immediately with no gap */
+  .product-main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  .product-info {
+    margin-top: 0 !important;
+    padding-top: 24px !important;
+  }
+  
+  /* Remove any section-level spacing */
+  main .section:has(.product-details),
+  main > .section:has(.product-details) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 }
 
 @media (width < 900px) {
-  .breadcrumb-content {
-    padding: 10px 16px;
-    margin-top: 0;
-    font-size: 11px;
+  /* Mobile: Account for header + breadcrumb height (no gap) */
+  .product-details-container {
+    margin-top: calc(50px + 40px) !important; /* header height + breadcrumb height */
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
   }
-
-  .breadcrumb-separator {
-    margin: 0 6px;
+  
+  /* Hide product content when navigation is expanded */
+  body:has(header nav[aria-expanded='true']) .product-details-container {
+    display: none;
   }
 }
 
-/* Sticky Header - Full width bar attached below breadcrumb */
+/* Sticky Header - Full width bar */
 .product-sticky-header {
   position: sticky;
-  top: calc(var(--nav-height-desktop, 104px) + 20px); /* nav height + breadcrumb height */
+  top: calc(var(--nav-height-desktop, 104px) + 40px); /* nav height + breadcrumb height */
   left: 0;
   right: 0;
   background-color: #f0ece4;
@@ -144,6 +126,7 @@ main .section .product-details-wrapper {
   width: 100%;
   margin-left: 0;
   margin-top: 0;
+  padding-top: 0;
   box-sizing: border-box;
 }
 
@@ -151,22 +134,21 @@ main .section .product-details-wrapper {
   .product-sticky-header {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none;
   }
 }
 
 @media (max-width: 900px) {
   .product-sticky-header {
-    top: calc(var(--nav-height, 56px) + 24px); /* nav height + breadcrumb height mobile */
-    width: 100% !important;
-    margin-left: 0 !important;
     display: none; /* Hidden on mobile anyway */
   }
 }
 
 .sticky-header-content {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -280,8 +262,11 @@ main .section .product-details-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  padding: 24px 40px;
-  max-width: 1200px;
+  padding: 0;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
@@ -291,12 +276,32 @@ main .section .product-details-wrapper {
   .product-main {
     grid-template-columns: 1fr 1fr;
     gap: 60px;
+    padding: 0 40px !important;
+    padding-top: 0 !important;
+    margin-top: 20px !important;
+    margin-bottom: 0 !important;
+    max-width: 1400px !important;
+  }
+  
+  .product-info {
+    padding: 24px 40px;
+    padding-top: 24px;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 
 @media (width < 900px) {
   .product-main {
-    padding: 24px 16px;
+    padding: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  
+  /* Hide product content (badge and heading) when navigation is expanded */
+  /* This ensures navigation appears directly below header with no content in between */
+  body:has(header nav[aria-expanded='true']) .product-main {
+    display: none;
   }
 }
 
@@ -305,6 +310,24 @@ main .section .product-details-wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 24px 0;
+  padding-top: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (width >= 900px) {
+  .product-info {
+    padding: 24px 0;
+    padding-top: 24px;
+  }
+}
+
+@media (width < 900px) {
+  .product-info {
+    padding: 24px 16px;
+    padding-top: 24px;
+  }
 }
 
 .product-badge {
@@ -338,6 +361,12 @@ main .section .product-details-wrapper {
   gap: 12px;
   font-size: 14px;
   color: #666;
+}
+
+@media (width < 900px) {
+  .product-meta {
+    display: none !important;
+  }
 }
 
 .product-sku {
@@ -374,6 +403,12 @@ main .section .product-details-wrapper {
   align-items: center !important;
   gap: 6px !important;
   font-size: 13px !important;
+}
+
+@media (width < 900px) {
+  .product-rating {
+    display: none !important;
+  }
 }
 
 .stars {
@@ -419,6 +454,12 @@ main .section .product-details-wrapper {
   margin-top: 4px !important;
   padding-bottom: 12px !important;
   position: relative !important;
+}
+
+@media (width < 900px) {
+  .recommend-info {
+    display: none !important;
+  }
 }
 
 .recommend-info::after {
@@ -505,6 +546,12 @@ main .section .product-details-wrapper {
 /* Key Features */
 .key-features {
   margin-top: 16px;
+}
+
+@media (width < 900px) {
+  .key-features {
+    display: none !important;
+  }
 }
 
 .key-features h3 {
@@ -775,12 +822,6 @@ main .section .product-details-wrapper {
     box-sizing: border-box !important;
   }
 
-  .product-breadcrumb {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    overflow: hidden !important;
-  }
 
   .product-sticky-header {
     display: none;
@@ -921,20 +962,6 @@ main .section .product-details-wrapper {
     font-size: 12px !important;
   }
 
-  .breadcrumb-content {
-    padding: 10px 12px !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-  }
-
-  .breadcrumb-link,
-  .breadcrumb-current {
-    max-width: 100px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-  }
 
   /* Share thoughts button */
   .share-thoughts-btn {
@@ -958,45 +985,9 @@ main .section .product-details-wrapper {
     overflow-wrap: break-word !important;
     word-wrap: break-word !important;
     box-sizing: border-box !important;
-    margin: 0 !important;
-    padding: 0 !important;
+
   }
 
-  .product-breadcrumb {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-top: 16px !important;
-    margin-top: -16px !important;
-    overflow: hidden !important;
-  }
-
-  .breadcrumb-content {
-    padding: 6px 10px !important;
-    font-size: 9px !important;
-    flex-wrap: nowrap !important;
-    overflow: hidden !important;
-    max-width: 100% !important;
-  }
-
-  .breadcrumb-link {
-    max-width: 60px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-  }
-
-  .breadcrumb-current {
-    max-width: 80px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-  }
-
-  .breadcrumb-separator {
-    margin: 0 3px !important;
-    font-size: 10px !important;
-  }
 
   .product-main {
     padding: 10px !important;
@@ -1232,18 +1223,6 @@ main .section .product-details-wrapper {
     font-size: 9px !important;
   }
 
-  .breadcrumb-content {
-    font-size: 8px !important;
-    padding: 4px 8px !important;
-  }
-
-  .breadcrumb-link {
-    max-width: 50px !important;
-  }
-
-  .breadcrumb-current {
-    max-width: 60px !important;
-  }
 
   .size-btn {
     min-width: 28px !important;

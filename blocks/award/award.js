@@ -170,14 +170,44 @@ export default function decorate(block) {
   const pagination = document.createElement('div');
   pagination.className = 'award-pagination';
 
-  const cardsPerPage = 4;
-  const totalPages = Math.ceil(cards.length / cardsPerPage);
+  // Function to get cards per page based on screen width
+  const getCardsPerPage = () => {
+    if (window.innerWidth <= 480) return 1; // Mobile: 1 card
+    if (window.innerWidth <= 768) return 2; // Tablet: 2 cards
+    if (window.innerWidth <= 1024) return 3; // Large tablet: 3 cards
+    return 4; // Desktop: 4 cards
+  };
+
+  let cardsPerPage = getCardsPerPage();
+  let totalPages = Math.ceil(cards.length / cardsPerPage);
   let currentPage = 0;
 
   const updatePagination = () => {
+    cardsPerPage = getCardsPerPage();
+    totalPages = Math.ceil(cards.length / cardsPerPage);
+    
+    // Adjust current page if needed after resize
+    if (currentPage >= totalPages) {
+      currentPage = totalPages - 1;
+    }
+    
+    // Calculate which cards are currently visible
+    const startCard = currentPage * cardsPerPage + 1;
+    const endCard = Math.min((currentPage + 1) * cardsPerPage, cards.length);
+    
+    // Show different format based on cards per page
+    let paginationText;
+    if (cardsPerPage === 1) {
+      // Mobile: Show "1/13" format
+      paginationText = `${startCard} / ${cards.length}`;
+    } else {
+      // Desktop/Tablet: Show "1-4/13" format
+      paginationText = `${startCard}-${endCard} / ${cards.length}`;
+    }
+    
     pagination.innerHTML = `
       <button class="award-pagination-prev" aria-label="Previous page">&#8249;</button>
-      <span class="award-pagination-text">${currentPage + 1} / ${totalPages}</span>
+      <span class="award-pagination-text">${paginationText}</span>
       <button class="award-pagination-next" aria-label="Next page">&#8250;</button>
     `;
 
@@ -186,17 +216,34 @@ export default function decorate(block) {
 
     paginationPrev.addEventListener('click', () => slideTo(currentPage - 1));
     paginationNext.addEventListener('click', () => slideTo(currentPage + 1));
+    
+    // Disable buttons at boundaries
+    paginationPrev.disabled = currentPage === 0;
+    paginationNext.disabled = currentPage >= totalPages - 1;
   };
 
   const slideTo = (page) => {
+    cardsPerPage = getCardsPerPage();
+    totalPages = Math.ceil(cards.length / cardsPerPage);
+    
     if (page < 0 || page >= totalPages) return;
     currentPage = page;
 
-    // Slide by percentage (25% per card × 4 cards = 100% per page)
-    const slidePercentage = currentPage * 100;
+    // Calculate slide percentage based on cards per page
+    const slidePercentage = (currentPage * 100 * cardsPerPage) / cardsPerPage;
     carouselTrack.style.transform = `translateX(-${slidePercentage}%)`;
     updatePagination();
   };
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      updatePagination();
+      slideTo(0); // Reset to first page on resize
+    }, 250);
+  });
 
   contentWrapper.appendChild(carouselWrapper);
   contentWrapper.appendChild(pagination);
