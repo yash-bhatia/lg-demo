@@ -191,13 +191,16 @@ function createBreadcrumb(breadcrumbItems) {
 }
 
 function createStickyHeader(product) {
+  const iconPath = `${window.hlx?.codeBasePath || ''}/icons/label-energy-grade-f.svg`;
   return `
     <div class="product-sticky-header">
       <div class="sticky-header-content">
         <div class="sticky-product-name">${product.shortName}</div>
         <div class="sticky-actions">
           <div class="product-sheet">
-            <span class="sheet-icon">📄</span>
+            <span class="sheet-icon">
+              <img src="${iconPath}" alt="Energy Grade F" loading="lazy" style="height: 20px; width: auto;">
+            </span>
             <span>Product<br>Information Sheet</span>
           </div>
           <div class="sticky-pricing">
