@@ -239,9 +239,8 @@ header nav[aria-expanded='true'] {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0;
-
-    margin: 0 auto;
+    gap: 29rem;
+    margin-left: auto;
     padding: 0 40px;
     height: 44px;
     box-sizing: border-box;
@@ -857,7 +856,6 @@ header nav a.nav-icon:hover {
 
 .breadcrumb-content {
   max-width: 1400px;
-  margin: 0 auto !important;
   padding: 0 40px;
   display: flex;
   align-items: center;
@@ -874,8 +872,7 @@ header nav a.nav-icon:hover {
     padding: 0 40px !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: 10.5rem;
     height: 100% !important;
     justify-content: flex-start !important;
     max-width: 1400px !important;

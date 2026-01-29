@@ -152,14 +152,6 @@
   background-color: #fff;
 }
 
-/* Margin variants */
-.image-layered-text .image-layered-text--margin-top {
-  margin-top: 40px;
-}
-
-.image-layered-text .image-layered-text--margin-bottom {
-  margin-bottom: 40px;
-}
 
 /* Border */
 .image-layered-text .image-layered-text--border {

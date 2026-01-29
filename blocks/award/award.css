@@ -38,7 +38,10 @@ main > .section > div:has(.award) {
   background-color: #f0ece4;
   padding: 20px 0;
   margin-bottom: 40px;
-  position: relative;
+  position: relative; /* Default position, will be changed by JS */
+  width: 100%;
+  transition: all 0.3s ease;
+  will-change: transform;
 }
 
 .award-nav::after {
@@ -51,13 +54,24 @@ main > .section > div:has(.award) {
   background-color: #d9d5cd;
 }
 
+/* Fixed state styling - applied via JS */
+.award-nav.is-fixed {
+  position: fixed !important;
+  top: 200px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 47 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .award-nav-list {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 40px;
   list-style: none;
-  margin: 0;
+  margin-left: 200px;
   padding: 0;
 }
 

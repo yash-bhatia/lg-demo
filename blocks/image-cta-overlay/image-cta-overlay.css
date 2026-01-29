@@ -189,10 +189,6 @@
   background-color: #fff;
 }
 
-/* Margin variants */
-.image-cta-overlay .image-cta-overlay--margin-top {
-  margin-top: 40px;
-}
 
 .image-cta-overlay .image-cta-overlay--margin-bottom {
   margin-bottom: 40px;

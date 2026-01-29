@@ -108,6 +108,9 @@ export default function decorate(block) {
   const navBar = createNavBar();
   block.appendChild(navBar);
 
+  // Setup scroll-based fixed positioning
+  setupScrollFixedPosition(navBar);
+
   // Create content wrapper
   const contentWrapper = document.createElement('div');
   contentWrapper.className = 'award-content';
@@ -251,4 +254,160 @@ export default function decorate(block) {
 
   // Initialize
   updatePagination();
+}
+
+/**
+ * Setup scroll-based fixed positioning for award nav
+ * SIMPLIFIED VERSION - calculates on demand, no complex initialization
+ * @param {HTMLElement} nav - The navigation element
+ */
+function setupScrollFixedPosition(nav) {
+  if (!nav) {
+    console.error('Nav element not found');
+    return;
+  }
+
+  console.log('Setting up scroll-based fixed positioning for nav');
+
+  // Ensure nav starts in relative position
+  nav.style.position = 'relative';
+  nav.classList.remove('is-fixed');
+
+  // State variables
+  let originalOffset = null;
+  let isFixed = false;
+  const fixedTopPosition = 200; // Fixed position from top in pixels
+
+  // Function to get the original offset (calculates on first call or when needed)
+  function getOriginalOffset() {
+    if (originalOffset !== null) {
+      return originalOffset;
+    }
+
+    // Temporarily ensure nav is in normal position for accurate measurement
+    if (isFixed) {
+      nav.classList.remove('is-fixed');
+      nav.style.position = 'relative';
+      nav.style.top = '';
+      nav.style.left = '';
+      nav.style.right = '';
+      nav.style.width = '';
+      nav.style.zIndex = '';
+    }
+
+    // Force layout calculation
+    const rect = nav.getBoundingClientRect();
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    originalOffset = rect.top + currentScroll;
+    
+    console.log('📍 Original offset calculated:', originalOffset, 'pixels from page top');
+    return originalOffset;
+  }
+
+  // Main update function - called on scroll
+  function updateNavPosition() {
+    // Only apply scroll-based positioning on desktop (width >= 900px)
+    const isDesktop = window.innerWidth >= 900;
+    
+    // If mobile, ensure nav is in normal position and exit
+    if (!isDesktop) {
+      if (isFixed) {
+        nav.classList.remove('is-fixed');
+        nav.style.position = 'relative';
+        nav.style.top = '';
+        nav.style.left = '';
+        nav.style.right = '';
+        nav.style.width = '';
+        nav.style.zIndex = '';
+        isFixed = false;
+        console.log('📱 Mobile view detected - nav positioning disabled');
+      }
+      return; // Exit early on mobile
+    }
+
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const offset = getOriginalOffset();
+    
+    // Calculate when nav should become fixed
+    // Nav becomes fixed when scrolling past (originalOffset - fixedTopPosition)
+    const scrollThreshold = offset - fixedTopPosition;
+    const shouldBeFixed = scrollPosition >= scrollThreshold && scrollThreshold > 0;
+
+    // Apply or remove fixed positioning
+    if (shouldBeFixed && !isFixed) {
+      // Make it fixed
+      nav.classList.add('is-fixed');
+      nav.style.position = 'fixed';
+      nav.style.top = `${fixedTopPosition}px`;
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.width = '100%';
+      nav.style.zIndex = '47';
+      isFixed = true;
+      console.log('🔒 Nav FIXED at scroll:', scrollPosition, 'px (threshold:', scrollThreshold, 'px)');
+    } else if (!shouldBeFixed && isFixed) {
+      // Make it relative again
+      nav.classList.remove('is-fixed');
+      nav.style.position = 'relative';
+      nav.style.top = '';
+      nav.style.left = '';
+      nav.style.right = '';
+      nav.style.width = '';
+      nav.style.zIndex = '';
+      isFixed = false;
+      console.log('🔓 Nav UNFIXED at scroll:', scrollPosition, 'px');
+    }
+  }
+
+  // Attach scroll listener immediately - no delays
+  let scrollTicking = false;
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      window.requestAnimationFrame(() => {
+        updateNavPosition();
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  }, { passive: true });
+
+  console.log('✓ Scroll listener attached');
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      const isDesktop = window.innerWidth >= 900;
+      console.log('🔄 Window resized to', window.innerWidth, 'px -', isDesktop ? 'Desktop' : 'Mobile', 'view');
+      
+      // Reset everything
+      originalOffset = null;
+      nav.classList.remove('is-fixed');
+      nav.style.position = 'relative';
+      nav.style.top = '';
+      nav.style.left = '';
+      nav.style.right = '';
+      nav.style.width = '';
+      nav.style.zIndex = '';
+      isFixed = false;
+      
+      // Recalculate on next scroll (will check desktop/mobile inside)
+      updateNavPosition();
+    }, 250);
+  });
+
+  // Initial check (in case page is already scrolled)
+  setTimeout(() => {
+    const isDesktop = window.innerWidth >= 900;
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    console.log('Initial check:', isDesktop ? 'Desktop' : 'Mobile', 'view, scroll:', currentScroll, 'px');
+    
+    if (currentScroll > 0 && isDesktop) {
+      console.log('Page already scrolled on load, checking position...');
+      updateNavPosition();
+    }
+  }, 100);
+
+  console.log('✅ Scroll-based positioning setup complete (Desktop only: width >= 900px)');
 }
