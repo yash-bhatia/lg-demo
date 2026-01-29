@@ -242,6 +242,513 @@ function createTopBar(navBrand, navTools) {
 }
 
 /**
+ * Creates mega menu for navigation item
+ * @param {Element} navItem The navigation item element
+ */
+function getMegaMenuContent(menuType) {
+  const menus = {
+    'Shop': {
+      columns: [
+        {
+          title: 'Offers',
+          items: [
+            { label: 'All Promotions', url: '/promotions' },
+            { label: 'Exclusive to LG.com', url: '/exclusive' },
+            { label: 'Bundle Offers', url: '/bundle-offers' },
+            { label: 'Trade-Up', url: '/trade-up' },
+            { label: 'Great Offers', url: '/great-offers' },
+            { label: 'Monthly LG', url: '/monthly-lg' },
+            { label: 'LG Flex with Raylo Subscription', url: '/lg-flex' }
+          ]
+        },
+        {
+          title: 'New & Featured',
+          items: [
+            { label: 'Best', url: '/best' },
+            { label: 'New & Upcoming', url: '/new-upcoming' },
+            { label: 'CineBeam Q Projector', url: '/cinebeam-q' },
+            { label: 'MoodUP™ Fridge Freezers', url: '/moodupfridge' },
+            { label: 'A New Way to Care for Your Laundry', url: '/laundry-care' }
+          ]
+        },
+        {
+          title: 'Selected Shops',
+          items: [
+            { label: 'Business Shop', url: '/business-shop' },
+            { label: 'Student Shop', url: '/student-shop' },
+            { label: 'Key Worker Shop', url: '/key-worker-shop' },
+            { label: 'Partner Shop', url: '/partner-shop' }
+          ]
+        },
+        {
+          title: 'Buying Guides',
+          items: [
+            { label: 'TV Lineup Guide', url: '/tv-lineup', badge: 'NEW' },
+            { label: 'TV Features Guide', url: '/tv-features', badge: 'NEW' },
+            { label: 'Monitor Lineup Guide', url: '/monitor-lineup', badge: 'NEW' },
+            { label: 'Monitor Features Guide', url: '/monitor-features', badge: 'NEW' },
+            { label: 'Fridge Freezers Features Guide', url: '/fridge-freezers', badge: 'NEW' },
+            { label: 'Laundry Features Guide', url: '/laundry-features', badge: 'NEW' }
+          ]
+        },
+        {
+          title: 'Why buy from LG',
+          items: [
+            { label: 'LG Member Benefits', url: '/member-benefits' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/tv-offers', img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=250&fit=crop', alt: 'Up to 15% off on selected LG TVs' },
+        { url: '/sound-suite', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop', alt: 'Introducing Sound Suite' },
+        { url: '/speaker-offer', img: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=250&fit=crop', alt: 'Free Speaker or Soundbar with LG Bundles' },
+        { url: '/washer-dryer', img: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&h=250&fit=crop', alt: '20% off Washer and Dryer Pairs' }
+      ]
+    },
+    'TV/Audio/Video': {
+      columns: [
+        {
+          title: 'TVs',
+          items: [
+            { label: 'OLED TVs', url: '/tv/oled' },
+            { label: 'QNED TVs', url: '/tv/qned' },
+            { label: 'NanoCell TVs', url: '/tv/nanocell' },
+            { label: '4K TVs', url: '/tv/4k' },
+            { label: 'Smart TVs', url: '/tv/smart' },
+            { label: 'All TVs', url: '/tv/all' }
+          ]
+        },
+        {
+          title: 'Audio',
+          items: [
+            { label: 'Soundbars', url: '/audio/soundbars' },
+            { label: 'Wireless Speakers', url: '/audio/wireless-speakers' },
+            { label: 'Home Theatre', url: '/audio/home-theatre' },
+            { label: 'All Audio', url: '/audio/all' }
+          ]
+        },
+        {
+          title: 'Projectors',
+          items: [
+            { label: 'CineBeam Projectors', url: '/projectors/cinebeam' },
+            { label: '4K Projectors', url: '/projectors/4k' },
+            { label: 'All Projectors', url: '/projectors/all' }
+          ]
+        },
+        {
+          title: 'Shop by Size',
+          items: [
+            { label: '97" TVs', url: '/tv/97-inch' },
+            { label: '83" TVs', url: '/tv/83-inch' },
+            { label: '77" TVs', url: '/tv/77-inch' },
+            { label: '65" TVs', url: '/tv/65-inch' },
+            { label: '55" TVs', url: '/tv/55-inch' }
+          ]
+        },
+        {
+          title: 'Resources',
+          items: [
+            { label: 'TV Buying Guide', url: '/guides/tv' },
+            { label: 'Audio Buying Guide', url: '/guides/audio' },
+            { label: 'Compare TVs', url: '/compare/tv' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/tv-offers', img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=250&fit=crop', alt: 'OLED TVs' },
+        { url: '/soundbar-offers', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop', alt: 'Soundbars' },
+        { url: '/projector-offers', img: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&h=250&fit=crop', alt: 'Projectors' },
+        { url: '/audio-bundle', img: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=250&fit=crop', alt: 'Audio Bundles' }
+      ]
+    },
+    'Appliances': {
+      columns: [
+        {
+          title: 'Kitchen',
+          items: [
+            { label: 'Refrigerators', url: '/appliances/refrigerators' },
+            { label: 'Dishwashers', url: '/appliances/dishwashers' },
+            { label: 'Ovens & Ranges', url: '/appliances/ovens' },
+            { label: 'Microwaves', url: '/appliances/microwaves' },
+            { label: 'All Kitchen', url: '/appliances/kitchen' }
+          ]
+        },
+        {
+          title: 'Laundry',
+          items: [
+            { label: 'Washing Machines', url: '/appliances/washing-machines' },
+            { label: 'Dryers', url: '/appliances/dryers' },
+            { label: 'Washer Dryer Combos', url: '/appliances/combos' },
+            { label: 'All Laundry', url: '/appliances/laundry' }
+          ]
+        },
+        {
+          title: 'Vacuum Cleaners',
+          items: [
+            { label: 'Cordless Vacuums', url: '/appliances/cordless-vacuums' },
+            { label: 'Robot Vacuums', url: '/appliances/robot-vacuums' },
+            { label: 'All Vacuums', url: '/appliances/vacuums' }
+          ]
+        },
+        {
+          title: 'Air Care',
+          items: [
+            { label: 'Air Purifiers', url: '/appliances/air-purifiers' },
+            { label: 'Dehumidifiers', url: '/appliances/dehumidifiers' },
+            { label: 'Stylers', url: '/appliances/stylers' }
+          ]
+        },
+        {
+          title: 'Resources',
+          items: [
+            { label: 'Appliance Buying Guide', url: '/guides/appliances' },
+            { label: 'Energy Efficiency', url: '/guides/energy' },
+            { label: 'Compare Appliances', url: '/compare/appliances' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/fridge-offers', img: 'https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=250&fit=crop', alt: 'Refrigerators' },
+        { url: '/laundry-offers', img: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&h=250&fit=crop', alt: 'Laundry' },
+        { url: '/vacuum-offers', img: 'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=400&h=250&fit=crop', alt: 'Vacuums' },
+        { url: '/aircare-offers', img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=250&fit=crop', alt: 'Air Care' }
+      ]
+    },
+    'Heating & Cooling': {
+      columns: [
+        {
+          title: 'Air Conditioning',
+          items: [
+            { label: 'Split Systems', url: '/hvac/split-systems' },
+            { label: 'Multi-Split Systems', url: '/hvac/multi-split' },
+            { label: 'Portable AC', url: '/hvac/portable' },
+            { label: 'All Air Conditioning', url: '/hvac/ac' }
+          ]
+        },
+        {
+          title: 'Heat Pumps',
+          items: [
+            { label: 'Air Source Heat Pumps', url: '/hvac/heat-pumps' },
+            { label: 'Therma V', url: '/hvac/therma-v' },
+            { label: 'All Heat Pumps', url: '/hvac/heating' }
+          ]
+        },
+        {
+          title: 'Shop by Room',
+          items: [
+            { label: 'Living Room', url: '/hvac/living-room' },
+            { label: 'Bedroom', url: '/hvac/bedroom' },
+            { label: 'Office', url: '/hvac/office' },
+            { label: 'Multi-Room', url: '/hvac/multi-room' }
+          ]
+        },
+        {
+          title: 'Features',
+          items: [
+            { label: 'Energy Efficient', url: '/hvac/energy-efficient' },
+            { label: 'Smart Control', url: '/hvac/smart-control' },
+            { label: 'Quiet Operation', url: '/hvac/quiet' }
+          ]
+        },
+        {
+          title: 'Resources',
+          items: [
+            { label: 'HVAC Buying Guide', url: '/guides/hvac' },
+            { label: 'Installation Services', url: '/services/installation' },
+            { label: 'Compare Systems', url: '/compare/hvac' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/ac-offers', img: 'https://www.rajanandco.in/pub/media/catalog/category/ac001.jpg', alt: 'Air Conditioning' },
+        { url: '/heat-pump-offers', img: 'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400&h=250&fit=crop', alt: 'Heat Pumps' },
+        { url: '/smart-hvac', img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=400&h=250&fit=crop', alt: 'Smart HVAC' },
+        { url: '/installation', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=250&fit=crop', alt: 'Installation' }
+      ]
+    },
+    'Computing': {
+      columns: [
+        {
+          title: 'Monitors',
+          items: [
+            { label: 'Gaming Monitors', url: '/computing/gaming-monitors' },
+            { label: 'UltraWide Monitors', url: '/computing/ultrawide' },
+            { label: '4K Monitors', url: '/computing/4k-monitors' },
+            { label: 'All Monitors', url: '/computing/monitors' }
+          ]
+        },
+        {
+          title: 'Laptops',
+          items: [
+            { label: 'Gram Laptops', url: '/computing/gram' },
+            { label: 'Business Laptops', url: '/computing/business' },
+            { label: 'All Laptops', url: '/computing/laptops' }
+          ]
+        },
+        {
+          title: 'Desktop PCs',
+          items: [
+            { label: 'All-in-One PCs', url: '/computing/all-in-one' },
+            { label: 'Desktop Towers', url: '/computing/towers' }
+          ]
+        },
+        {
+          title: 'Accessories',
+          items: [
+            { label: 'Keyboards & Mice', url: '/computing/peripherals' },
+            { label: 'Monitor Arms', url: '/computing/monitor-arms' },
+            { label: 'Laptop Bags', url: '/computing/bags' }
+          ]
+        },
+        {
+          title: 'Resources',
+          items: [
+            { label: 'Monitor Buying Guide', url: '/guides/monitors' },
+            { label: 'Laptop Buying Guide', url: '/guides/laptops' },
+            { label: 'Compare Products', url: '/compare/computing' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/monitor-offers', img: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=250&fit=crop', alt: 'Monitors' },
+        { url: '/laptop-offers', img: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=250&fit=crop', alt: 'Laptops' },
+        { url: '/gaming-offers', img: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=250&fit=crop', alt: 'Gaming' },
+        { url: '/business-computing', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop', alt: 'Business Computing' }
+      ]
+    },
+    'Accessories': {
+      columns: [
+        {
+          title: 'TV Accessories',
+          items: [
+            { label: 'TV Wall Mounts', url: '/accessories/tv-mounts' },
+            { label: 'Remote Controls', url: '/accessories/remotes' },
+            { label: 'HDMI Cables', url: '/accessories/hdmi' },
+            { label: 'All TV Accessories', url: '/accessories/tv' }
+          ]
+        },
+        {
+          title: 'Audio Accessories',
+          items: [
+            { label: 'Soundbar Mounts', url: '/accessories/soundbar-mounts' },
+            { label: 'Audio Cables', url: '/accessories/audio-cables' },
+            { label: 'All Audio Accessories', url: '/accessories/audio' }
+          ]
+        },
+        {
+          title: 'Appliance Accessories',
+          items: [
+            { label: 'Fridge Filters', url: '/accessories/fridge-filters' },
+            { label: 'Washing Machine Parts', url: '/accessories/washer-parts' },
+            { label: 'Vacuum Accessories', url: '/accessories/vacuum-parts' },
+            { label: 'All Appliance Accessories', url: '/accessories/appliances' }
+          ]
+        },
+        {
+          title: 'Smart Home',
+          items: [
+            { label: 'Smart Controllers', url: '/accessories/smart-controllers' },
+            { label: 'Voice Assistants', url: '/accessories/voice' },
+            { label: 'Smart Hubs', url: '/accessories/hubs' }
+          ]
+        },
+        {
+          title: 'Care & Maintenance',
+          items: [
+            { label: 'Cleaning Products', url: '/accessories/cleaning' },
+            { label: 'Screen Protectors', url: '/accessories/screen-protectors' },
+            { label: 'Extended Warranties', url: '/accessories/warranty' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/mount-offers', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop', alt: 'Wall Mounts' },
+        { url: '/cable-offers', img: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=250&fit=crop', alt: 'Cables & Accessories' },
+        { url: '/filter-offers', img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=250&fit=crop', alt: 'Filters & Parts' },
+        { url: '/warranty-offers', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=250&fit=crop', alt: 'Warranties' }
+      ]
+    },
+    'Support': {
+      columns: [
+        {
+          title: 'Product Support',
+          items: [
+            { label: 'Product Registration', url: '/support/registration' },
+            { label: 'User Manuals', url: '/support/manuals' },
+            { label: 'Software & Drivers', url: '/support/downloads' },
+            { label: 'Warranty Information', url: '/support/warranty' }
+          ]
+        },
+        {
+          title: 'Repairs & Service',
+          items: [
+            { label: 'Request a Repair', url: '/support/repair' },
+            { label: 'Service Centres', url: '/support/centres' },
+            { label: 'Spare Parts', url: '/support/parts' },
+            { label: 'Track Repair', url: '/support/track' }
+          ]
+        },
+        {
+          title: 'Help & Contact',
+          items: [
+            { label: 'FAQs', url: '/support/faq' },
+            { label: 'Contact Us', url: '/support/contact' },
+            { label: 'Live Chat', url: '/support/chat' },
+            { label: 'Email Support', url: '/support/email' }
+          ]
+        },
+        {
+          title: 'Installation',
+          items: [
+            { label: 'Installation Services', url: '/support/installation' },
+            { label: 'Setup Guides', url: '/support/setup' },
+            { label: 'Video Tutorials', url: '/support/videos' }
+          ]
+        },
+        {
+          title: 'Account',
+          items: [
+            { label: 'My Orders', url: '/account/orders' },
+            { label: 'My Products', url: '/account/products' },
+            { label: 'Track Order', url: '/account/track' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/support/chat', img: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop', alt: 'Live Support' },
+        { url: '/support/repair', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=250&fit=crop', alt: 'Repair Services' },
+        { url: '/support/installation', img: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?w=400&h=250&fit=crop', alt: 'Installation' },
+        { url: '/support/warranty', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=250&fit=crop', alt: 'Warranty' }
+      ]
+    },
+    'LG AI': {
+      columns: [
+        {
+          title: 'AI Features',
+          items: [
+            { label: 'ThinQ AI Platform', url: '/ai/thinq' },
+            { label: 'AI ThinQ App', url: '/ai/app' },
+            { label: 'Voice Control', url: '/ai/voice' },
+            { label: 'AI Picture & Sound', url: '/ai/picture-sound' }
+          ]
+        },
+        {
+          title: 'Smart Home',
+          items: [
+            { label: 'Connected Devices', url: '/ai/connected' },
+            { label: 'Home Automation', url: '/ai/automation' },
+            { label: 'Energy Monitoring', url: '/ai/energy' }
+          ]
+        },
+        {
+          title: 'Compatibility',
+          items: [
+            { label: 'Works with Alexa', url: '/ai/alexa' },
+            { label: 'Works with Google', url: '/ai/google' },
+            { label: 'Apple HomeKit', url: '/ai/homekit' }
+          ]
+        },
+        {
+          title: 'AI Products',
+          items: [
+            { label: 'AI TVs', url: '/ai/tvs' },
+            { label: 'AI Appliances', url: '/ai/appliances' },
+            { label: 'All AI Products', url: '/ai/products' }
+          ]
+        },
+        {
+          title: 'Resources',
+          items: [
+            { label: 'AI Setup Guide', url: '/guides/ai-setup' },
+            { label: 'Smart Home Guide', url: '/guides/smart-home' },
+            { label: 'ThinQ App Guide', url: '/guides/thinq' }
+          ]
+        }
+      ],
+      promos: [
+        { url: '/ai/thinq', img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=400&h=250&fit=crop', alt: 'ThinQ AI' },
+        { url: '/ai/voice', img: 'https://images.unsplash.com/photo-1589254065909-b7086229d08c?w=400&h=250&fit=crop', alt: 'Voice Control' },
+        { url: '/ai/smart-home', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop', alt: 'Smart Home' },
+        { url: '/ai/automation', img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=400&h=250&fit=crop', alt: 'Automation' }
+      ]
+    }
+  };
+  
+  return menus[menuType] || menus['Shop']; // Default to Shop menu if not found
+}
+
+function createMegaMenu(navItem, menuType) {
+  const megaMenu = document.createElement('div');
+  megaMenu.className = 'mega-menu';
+  
+  const menuData = getMegaMenuContent(menuType);
+  
+  // Create content container
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'mega-menu-content';
+  
+  // Create columns
+  menuData.columns.forEach((column) => {
+    const col = document.createElement('div');
+    col.className = 'mega-menu-column';
+    
+    const title = document.createElement('h3');
+    title.textContent = column.title;
+    col.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    column.items.forEach((item) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = item.url;
+      a.textContent = item.label;
+      
+      if (item.badge) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-new';
+        badge.textContent = item.badge;
+        a.appendChild(badge);
+      }
+      
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    
+    col.appendChild(ul);
+    contentDiv.appendChild(col);
+  });
+  
+  // Create promo section
+  const promosDiv = document.createElement('div');
+  promosDiv.className = 'mega-menu-promos';
+  
+  const promoGrid = document.createElement('div');
+  promoGrid.className = 'mega-menu-promo-grid';
+  
+  menuData.promos.forEach((promo) => {
+    const a = document.createElement('a');
+    a.href = promo.url;
+    a.className = 'mega-menu-promo-card';
+    
+    const img = document.createElement('img');
+    img.src = promo.img;
+    img.alt = promo.alt;
+    img.loading = 'lazy';
+    
+    a.appendChild(img);
+    promoGrid.appendChild(a);
+  });
+  
+  promosDiv.appendChild(promoGrid);
+  
+  // Build mega menu
+  megaMenu.appendChild(contentDiv);
+  megaMenu.appendChild(promosDiv);
+  
+  navItem.appendChild(megaMenu);
+}
+
+/**
  * Decorates the tools section with search and icons
  * @param {Element} navTools The tools section element
  */
@@ -348,8 +855,82 @@ export default async function decorate(block) {
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
+      
+      // Add mega menu for all main menu items
+      const linkText = navSection.querySelector('a')?.textContent.trim() || navSection.textContent.trim();
+      console.log('Nav section link text:', linkText);
+      
+      // List of menu items that should have mega menus
+      const megaMenuItems = ['Shop', 'TV/Audio/Video', 'Appliances', 'Heating & Cooling', 'Computing', 'Accessories', 'Support', 'LG AI'];
+      
+      if (megaMenuItems.includes(linkText)) {
+        console.log(`${linkText} menu found, adding mega menu`);
+        navSection.classList.add('has-mega-menu');
+        createMegaMenu(navSection, linkText);
+        
         if (isDesktop.matches) {
+          // Add hover event listeners for desktop
+          let hoverTimeout;
+          const megaMenu = navSection.querySelector('.mega-menu');
+          const productStickyHeader = document.querySelector('.product-sticky-header');
+          console.log('Mega menu element:', megaMenu);
+          
+          // Show mega menu on nav item hover
+          navSection.addEventListener('mouseenter', () => {
+            console.log(`Mouse entered ${linkText} menu`);
+            clearTimeout(hoverTimeout);
+            if (megaMenu) {
+              megaMenu.style.display = 'block';
+              console.log('Mega menu displayed');
+              
+              // Lower z-index of product-sticky-header
+              if (productStickyHeader) {
+                productStickyHeader.style.zIndex = '1';
+                console.log('Product sticky header z-index set to 1');
+              }
+            }
+          });
+          
+          // Hide mega menu when leaving nav item
+          navSection.addEventListener('mouseleave', () => {
+            console.log(`Mouse left ${linkText} menu`);
+            hoverTimeout = setTimeout(() => {
+              if (megaMenu) {
+                megaMenu.style.display = 'none';
+                console.log('Mega menu hidden');
+                
+                // Restore z-index of product-sticky-header
+                if (productStickyHeader) {
+                  productStickyHeader.style.zIndex = '48';
+                  console.log('Product sticky header z-index restored to 48');
+                }
+              }
+            }, 100);
+          });
+          
+          // Keep mega menu open when hovering over it
+          if (megaMenu) {
+            megaMenu.addEventListener('mouseenter', () => {
+              console.log('Mouse entered mega menu');
+              clearTimeout(hoverTimeout);
+            });
+            
+            megaMenu.addEventListener('mouseleave', () => {
+              console.log('Mouse left mega menu');
+              megaMenu.style.display = 'none';
+              
+              // Restore z-index of product-sticky-header
+              if (productStickyHeader) {
+                productStickyHeader.style.zIndex = '48';
+                console.log('Product sticky header z-index restored to 48');
+              }
+            });
+          }
+        }
+      }
+      
+      navSection.addEventListener('click', () => {
+        if (isDesktop.matches && !navSection.classList.contains('has-mega-menu')) {
           const expanded = navSection.getAttribute('aria-expanded') === 'true';
           toggleAllNavSections(navSections);
           navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
